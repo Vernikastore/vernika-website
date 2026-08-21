@@ -19,6 +19,7 @@ function App() {
             <Route path="/services" component={Home} />
             <Route path="/application" component={Home} />
             <Route path="/insights" component={Home} />
+            <Route path="/insights/:slug" component={Home} />
             <Route path="/contact" component={Home} />
             <Route path="/admin/leads" component={AdminLeads} />
             <Route path="/404" component={NotFound} />
