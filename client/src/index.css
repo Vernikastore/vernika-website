@@ -38,6 +38,10 @@ button:active, a:active { transform:scale(.97); }
 .reveal { animation:reveal .7s cubic-bezier(.23,1,.32,1) both; }
 @keyframes reveal { from{opacity:0;transform:translateY(20px)} to{opacity:1;transform:translateY(0)} }
 .page-enter { animation: pageEnter .34s cubic-bezier(.23,1,.32,1) both; }
+.lead-panel { animation: leadSlide .42s cubic-bezier(.23,1,.32,1) both; }
+@keyframes leadSlide { from { opacity:0; transform:translateY(28px) scale(.98); } to { opacity:1; transform:translateY(0) scale(1); } }
+.chat-pop { animation: chatPop .28s cubic-bezier(.23,1,.32,1) both; }
+@keyframes chatPop { from { opacity:0; transform:translateY(12px) scale(.97); } to { opacity:1; transform:translateY(0) scale(1); } }
 @keyframes pageEnter { from { opacity:0; transform:translateY(8px); } to { opacity:1; transform:translateY(0); } }
-@media (prefers-reduced-motion: reduce) { html{scroll-behavior:auto} *,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important} }
+@media (prefers-reduced-motion: reduce) { .lead-panel,.chat-pop{animation:none!important} html{scroll-behavior:auto} *,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important} }
 @media (max-width:640px){.container{padding:0 18px}.display{letter-spacing:-.05em}}

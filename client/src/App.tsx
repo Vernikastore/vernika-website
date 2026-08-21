@@ -18,6 +18,7 @@ function App() {
             <Route path="/about" component={Home} />
             <Route path="/services" component={Home} />
             <Route path="/application" component={Home} />
+            <Route path="/case-studies" component={Home} />
             <Route path="/insights" component={Home} />
             <Route path="/insights/:slug" component={Home} />
             <Route path="/contact" component={Home} />

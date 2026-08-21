@@ -25,3 +25,12 @@
 - [x] Add a server test covering successful lead creation persistence
 - [x] Mark the expanded-requirements history item complete only after the remaining gaps are resolved
 - [x] Strengthen the successful lead test to assert the persistence helper receives the exact lead payload
+- [x] Add dedicated Case Studies navigation and page with credible local-business transformation examples
+- [x] Add server-side AI chatbot procedure using the built-in LLM helper
+- [x] Add bottom-right chatbot widget with quick prompts, loading state, and responsive layout
+- [x] Add smooth slide-in animation to the timed/exit-intent lead popup
+- [x] Add company size to the lead schema, validation, popup form, persistence, admin view, and tests
+- [x] Re-run type checks, tests, build, and responsive visual verification for the enhancements
+- [ ] Save an updated checkpoint for the enhancements
+- [x] Run fresh mobile visual verification for Case Studies, chatbot widget, and enhanced lead popup (including opened popup and chatbot states)
+- [ ] Save a new checkpoint after post-enhancement verification

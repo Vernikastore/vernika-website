@@ -15,6 +15,13 @@
       "when": 1787329437017,
       "tag": "0001_remarkable_the_stranger",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "5",
+      "when": 1787330488267,
+      "tag": "0002_wooden_black_knight",
+      "breakpoints": true
     }
   ]
 }

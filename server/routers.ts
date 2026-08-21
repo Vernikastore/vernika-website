@@ -3,6 +3,7 @@ import { COOKIE_NAME } from "@shared/const";
 import { getSessionCookieOptions } from "./_core/cookies";
 import { systemRouter } from "./_core/systemRouter";
 import { adminProcedure, publicProcedure, router } from "./_core/trpc";
+import { invokeLLM } from "./_core/llm";
 import { createInquiry, createLead, listLeads, subscribeNewsletter, updateLeadStatus } from "./db";
 
 const leadFields = z.object({
@@ -10,6 +11,7 @@ const leadFields = z.object({
   email: z.string().email().max(320),
   phone: z.string().trim().min(7).max(40),
   company: z.string().trim().min(2).max(160),
+  companySize: z.string().trim().min(1).max(80),
   interestArea: z.string().trim().min(2).max(120),
 });
 
@@ -33,6 +35,19 @@ export const appRouter = router({
   }),
   newsletter: router({
     subscribe: publicProcedure.input(z.object({ email: z.string().email().max(320) })).mutation(({ input }) => subscribeNewsletter(input.email)),
+  }),
+  chatbot: router({
+    ask: publicProcedure.input(z.object({ message: z.string().trim().min(1).max(800), history: z.array(z.object({ role: z.enum(["user", "assistant"]), content: z.string().max(1200) })).max(8).default([]) })).mutation(async ({ input }) => {
+      const response = await invokeLLM({
+        messages: [
+          { role: "system", content: "You are Vernika’s friendly website assistant. Answer basic client questions about Vernika’s digital transformation, automation, CRM, Salesforce tooling, business management application, services, demos, and next steps. Be concise, warm, practical, and never invent specific client results, pricing beyond the public tiers, or guarantees. If a question needs a human, recommend the Contact page. Keep responses under 90 words." },
+          ...input.history,
+          { role: "user", content: input.message },
+        ],
+      });
+      const content = response.choices[0]?.message.content;
+      return { answer: typeof content === "string" ? content : "I can help with Vernika’s services, application, and demo requests. Please try asking in a different way." };
+    }),
   }),
 });
 

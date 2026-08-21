@@ -18,6 +18,7 @@ export const leads = mysqlTable("leads", {
   email: varchar("email", { length: 320 }).notNull(),
   phone: varchar("phone", { length: 40 }).notNull(),
   company: varchar("company", { length: 160 }).notNull(),
+  companySize: varchar("companySize", { length: 80 }).notNull(),
   interestArea: varchar("interestArea", { length: 120 }).notNull(),
   source: varchar("source", { length: 40 }).default("website").notNull(),
   status: mysqlEnum("status", ["new", "contacted", "qualified", "closed"]).default("new").notNull(),
