@@ -31,6 +31,18 @@
 - [x] Add smooth slide-in animation to the timed/exit-intent lead popup
 - [x] Add company size to the lead schema, validation, popup form, persistence, admin view, and tests
 - [x] Re-run type checks, tests, build, and responsive visual verification for the enhancements
-- [ ] Save an updated checkpoint for the enhancements
+- [x] Save an updated checkpoint for the enhancements
 - [x] Run fresh mobile visual verification for Case Studies, chatbot widget, and enhanced lead popup (including opened popup and chatbot states)
-- [ ] Save a new checkpoint after post-enhancement verification
+- [x] Save a new checkpoint after post-enhancement verification
+- [x] Add consultation-request table and safe migration for scheduled consultation timestamps
+- [x] Add typed consultation-request procedure and tests
+- [x] Add an in-chat consultation scheduler with date, time, contact details, validation, and success state
+- [x] Change the lead popup to exit-intent-only activation and preserve the company-size field
+- [x] Run type checks, tests, build, and responsive flow verification
+- [x] Save a new checkpoint for the consultation scheduling update
+- [x] Add a visible inline error state for failed consultation scheduling attempts
+- [x] Run fresh mobile and desktop verification of the scheduler and exit-intent popup behavior
+- [ ] Save a new checkpoint after the consultation scheduling update passes verification
+- [x] Explicitly trigger and verify the exit-intent popup after the activation change (confirmed in preview)
+- [x] Verify the consultation scheduler interaction on a mobile viewport (responsive width and form constraints verified)
+- [ ] Save the final checkpoint after both interaction checks

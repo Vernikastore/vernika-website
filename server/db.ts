@@ -1,6 +1,6 @@
 import { desc, eq } from "drizzle-orm";
 import { drizzle } from "drizzle-orm/mysql2";
-import { InsertUser, inquiries, InsertLead, leads, newsletterSubscribers, users } from "../drizzle/schema";
+import { InsertUser, inquiries, InsertLead, leads, newsletterSubscribers, users, InsertConsultationRequest, consultationRequests } from "../drizzle/schema";
 import { ENV } from "./_core/env";
 
 let _db: ReturnType<typeof drizzle> | null = null;
@@ -66,5 +66,12 @@ export async function subscribeNewsletter(email: string) {
   const db = await getDb();
   if (!db) throw new Error("Database is not available");
   await db.insert(newsletterSubscribers).values({ email }).onDuplicateKeyUpdate({ set: { email } });
+  return { success: true } as const;
+}
+
+export async function createConsultationRequest(input: Omit<InsertConsultationRequest, "id" | "createdAt">) {
+  const db = await getDb();
+  if (!db) throw new Error("Database is not available");
+  await db.insert(consultationRequests).values(input);
   return { success: true } as const;
 }

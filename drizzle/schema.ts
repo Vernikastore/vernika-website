@@ -41,9 +41,22 @@ export const newsletterSubscribers = mysqlTable("newsletterSubscribers", {
   createdAt: timestamp("createdAt").defaultNow().notNull(),
 });
 
+export const consultationRequests = mysqlTable("consultationRequests", {
+  id: int("id").autoincrement().primaryKey(),
+  name: varchar("name", { length: 120 }).notNull(),
+  email: varchar("email", { length: 320 }).notNull(),
+  company: varchar("company", { length: 160 }),
+  scheduledAt: timestamp("scheduledAt").notNull(),
+  timezone: varchar("timezone", { length: 80 }).notNull(),
+  status: mysqlEnum("status", ["requested", "confirmed", "completed", "cancelled"]).default("requested").notNull(),
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+});
+
 export type User = typeof users.$inferSelect;
 export type InsertUser = typeof users.$inferInsert;
 export type Lead = typeof leads.$inferSelect;
 export type InsertLead = typeof leads.$inferInsert;
 export type Inquiry = typeof inquiries.$inferSelect;
 export type NewsletterSubscriber = typeof newsletterSubscribers.$inferSelect;
+export type ConsultationRequest = typeof consultationRequests.$inferSelect;
+export type InsertConsultationRequest = typeof consultationRequests.$inferInsert;

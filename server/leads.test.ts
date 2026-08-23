@@ -6,7 +6,7 @@ import type { TrpcContext } from "./_core/context";
 const context = { user: null, req: {} as TrpcContext["req"], res: {} as TrpcContext["res"] } satisfies TrpcContext;
 
 describe("lead capture contract", () => {
-  it("requires exactly the five lead capture fields with valid values", async () => {
+  it("requires the six lead capture fields with valid values", async () => {
     const caller = appRouter.createCaller(context);
     await expect(caller.leads.create({ name: "A", email: "bad", phone: "1", company: "", companySize: "", interestArea: "" })).rejects.toMatchObject({ code: "BAD_REQUEST" });
   });
@@ -24,5 +24,21 @@ describe("lead capture contract", () => {
     expect(result).toEqual({ success: true });
     expect(persist).toHaveBeenCalledWith({ ...input, source: "website", status: "new" });
     persist.mockRestore();
+  });
+
+  it("validates and persists a future consultation request", async () => {
+    const persist = vi.spyOn(db, "createConsultationRequest").mockResolvedValue({ success: true });
+    const caller = appRouter.createCaller(context);
+    const scheduledAt = new Date(Date.now() + 86400000);
+    const input = { name: "Future Client", email: "client@vernika.com", company: "Future Co", scheduledAt, timezone: "Asia/Kolkata" };
+    const result = await caller.consultations.create(input);
+    expect(result).toEqual({ success: true });
+    expect(persist).toHaveBeenCalledWith({ ...input, status: "requested" });
+    persist.mockRestore();
+  });
+
+  it("rejects consultation requests in the past", async () => {
+    const caller = appRouter.createCaller(context);
+    await expect(caller.consultations.create({ name: "Past Client", email: "past@vernika.com", scheduledAt: new Date(Date.now() - 60000), timezone: "UTC" })).rejects.toMatchObject({ code: "BAD_REQUEST" });
   });
 });
