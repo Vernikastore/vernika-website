@@ -1,4 +1,4 @@
-import { desc, eq } from "drizzle-orm";
+import { asc, desc, eq } from "drizzle-orm";
 import { drizzle } from "drizzle-orm/mysql2";
 import { InsertUser, inquiries, InsertLead, leads, newsletterSubscribers, users, InsertConsultationRequest, consultationRequests, caseStudies, InsertCaseStudy, projects, InsertProject, siteDetails, InsertSiteDetail } from "../drizzle/schema";
 import { ENV } from "./_core/env";
@@ -92,7 +92,7 @@ export async function updateConsultationStatus(id: number, status: "requested" |
 export async function listCaseStudies(publishedOnly = false) {
   const db = await getDb();
   if (!db) return [];
-  return publishedOnly ? db.select().from(caseStudies).where(eq(caseStudies.isPublished, 1)).orderBy(desc(caseStudies.createdAt)) : db.select().from(caseStudies).orderBy(desc(caseStudies.createdAt));
+  return publishedOnly ? db.select().from(caseStudies).where(eq(caseStudies.isPublished, 1)).orderBy(asc(caseStudies.displayOrder), desc(caseStudies.createdAt)) : db.select().from(caseStudies).orderBy(asc(caseStudies.displayOrder), desc(caseStudies.createdAt));
 }
 
 export async function createCaseStudy(input: Omit<InsertCaseStudy, "id" | "createdAt" | "updatedAt">) {
@@ -116,10 +116,17 @@ export async function deleteCaseStudy(id: number) {
   return { success: true } as const;
 }
 
+export async function reorderCaseStudies(items: Array<{ id: number; displayOrder: number }>) {
+  const db = await getDb();
+  if (!db) throw new Error("Database is not available");
+  for (const item of items) await db.update(caseStudies).set({ displayOrder: item.displayOrder }).where(eq(caseStudies.id, item.id));
+  return { success: true } as const;
+}
+
 export async function listProjects(publishedOnly = false) {
   const db = await getDb();
   if (!db) return [];
-  return publishedOnly ? db.select().from(projects).where(eq(projects.isPublished, 1)).orderBy(desc(projects.createdAt)) : db.select().from(projects).orderBy(desc(projects.createdAt));
+  return publishedOnly ? db.select().from(projects).where(eq(projects.isPublished, 1)).orderBy(asc(projects.displayOrder), desc(projects.createdAt)) : db.select().from(projects).orderBy(asc(projects.displayOrder), desc(projects.createdAt));
 }
 
 export async function createProject(input: Omit<InsertProject, "id" | "createdAt" | "updatedAt">) {
@@ -140,6 +147,13 @@ export async function deleteProject(id: number) {
   const db = await getDb();
   if (!db) throw new Error("Database is not available");
   await db.delete(projects).where(eq(projects.id, id));
+  return { success: true } as const;
+}
+
+export async function reorderProjects(items: Array<{ id: number; displayOrder: number }>) {
+  const db = await getDb();
+  if (!db) throw new Error("Database is not available");
+  for (const item of items) await db.update(projects).set({ displayOrder: item.displayOrder }).where(eq(projects.id, item.id));
   return { success: true } as const;
 }
 

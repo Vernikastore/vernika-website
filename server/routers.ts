@@ -4,7 +4,7 @@ import { getSessionCookieOptions } from "./_core/cookies";
 import { systemRouter } from "./_core/systemRouter";
 import { adminProcedure, publicProcedure, router } from "./_core/trpc";
 import { invokeLLM } from "./_core/llm";
-import { createCaseStudy, createConsultationRequest, createInquiry, createLead, createProject, createSiteDetail, deleteCaseStudy, deleteProject, deleteSiteDetail, exportLeadAndConsultationCsv, listCaseStudies, listConsultationRequests, listLeads, listProjects, listSiteDetails, subscribeNewsletter, updateCaseStudy, updateConsultationStatus, updateLeadStatus, updateProject, updateSiteDetail } from "./db";
+import { createCaseStudy, createConsultationRequest, createInquiry, createLead, createProject, createSiteDetail, deleteCaseStudy, deleteProject, deleteSiteDetail, exportLeadAndConsultationCsv, listCaseStudies, listConsultationRequests, listLeads, listProjects, listSiteDetails, reorderCaseStudies, reorderProjects, subscribeNewsletter, updateCaseStudy, updateConsultationStatus, updateLeadStatus, updateProject, updateSiteDetail } from "./db";
 
 const leadFields = z.object({
   name: z.string().trim().min(2).max(120),
@@ -47,6 +47,7 @@ const siteDetailFields = z.object({
 });
 
 const idInput = z.object({ id: z.number().int().positive() });
+const reorderInput = z.array(z.object({ id: z.number().int().positive(), displayOrder: z.number().int().min(0).max(10000) })).min(1).max(100);
 const updateCaseStudyInput = z.object({ id: z.number().int().positive(), data: caseStudyFields.partial() });
 const updateProjectInput = z.object({ id: z.number().int().positive(), data: projectFields.partial() });
 const updateSiteDetailInput = z.object({ id: z.number().int().positive(), data: siteDetailFields.partial() });
@@ -89,12 +90,14 @@ export const appRouter = router({
       create: adminProcedure.input(caseStudyFields).mutation(({ input }) => createCaseStudy(input)),
       update: adminProcedure.input(updateCaseStudyInput).mutation(({ input }) => updateCaseStudy(input.id, input.data)),
       delete: adminProcedure.input(idInput).mutation(({ input }) => deleteCaseStudy(input.id)),
+      reorder: adminProcedure.input(reorderInput).mutation(({ input }) => reorderCaseStudies(input)),
     }),
     projects: router({
       list: adminProcedure.query(() => listProjects()),
       create: adminProcedure.input(projectFields).mutation(({ input }) => createProject(input)),
       update: adminProcedure.input(updateProjectInput).mutation(({ input }) => updateProject(input.id, input.data)),
       delete: adminProcedure.input(idInput).mutation(({ input }) => deleteProject(input.id)),
+      reorder: adminProcedure.input(reorderInput).mutation(({ input }) => reorderProjects(input)),
     }),
     siteDetails: router({
       list: adminProcedure.query(() => listSiteDetails()),

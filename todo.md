@@ -61,7 +61,7 @@
 - [x] Add editable site-detail schema, procedures, admin CRUD UI, and public content wiring
 - [x] Add validation and access-control tests for all admin content mutations and export (including case-study, project, and site-detail CRUD paths)
 - [x] Run type checks, tests, build, and responsive admin/public verification
-- [ ] Save a new checkpoint for the admin content console update
+- [x] Save a new checkpoint for the admin content console update
 - [x] Repair JSX syntax regressions in public Home.tsx detail wiring and re-run the build
 - [x] Repair admin-console JSX syntax regressions from the content-management rewrite and re-run checks
 - [x] Fix content-editor cancel actions to close modal cleanly
@@ -73,3 +73,32 @@
 - [x] Add denial coverage for anonymous and non-admin case-study create, update, and delete procedures
 - [x] Add denial coverage for non-admin project update and delete procedures
 - [x] Add denial coverage for anonymous and non-admin site-detail create, update, and delete procedures plus remaining content mutations
+- [x] Inspect the supplied Vernika reference site and capture approved public content opportunities
+- [x] Update the visual system with richer motion, animated backgrounds, and interactive card/button responses across public sections
+- [x] Add service-detail previews or a dedicated detail experience for every service card
+- [x] Add generated, clearly labeled editorial blog/insight content and expanded case-study/project records without fabricating testimonials or reviews
+- [x] Add public category filters for case studies and projects by industry or service type
+- [x] Add drag-and-drop reordering for admin case studies and projects with persisted display order
+- [x] Inspect available Supabase connector/project configuration and connect only through a safe supported path
+- [x] Create a new private GitHub repository and push the completed Vernika project
+- [x] Run type checks, tests, build, and visual verification for all refreshed public and admin flows
+- [ ] Save a new checkpoint for the refreshed Vernika experience
+- [x] Inspect the existing Vernika Tech Application Supabase tables, migrations, and security posture without modifying data
+- [x] Use an isolated schema or separate free-tier Supabase project if the existing project cannot be safely shared (created and paused; not connected)
+- [x] Preserve the existing website database until Supabase isolation and connection safety are verified
+- [x] Confirmed the safe Supabase decision with the user; no Supabase DDL or data migration was applied
+- [x] Do not connect Supabase; preserve the existing managed database as the single application data source
+- [x] Pause the unused isolated Supabase project created during the previous integration decision
+- [x] Complete reference-informed content refresh, generated editorial insights, and expanded project/case-study content without fabricated testimonials
+- [x] Add richer animations and interactive responses across public sections and service cards
+- [x] Add category filters to public case studies and projects
+- [x] Add persisted drag-and-drop ordering for admin case studies and projects
+- [x] Create a new private GitHub repository and push the completed project
+- [x] Verify typechecks, tests, build, public/admin flows, and repository state
+- [ ] Save a new checkpoint for the no-Supabase refresh
+- [x] Add owner-only reorder procedure coverage and denied anonymous/non-admin reorder tests
+- [x] Add and persist additional project and case-study records beyond the existing seeded set
+- [x] Add explicit editorial/generated labeling to newly generated insight and illustrative portfolio content
+- [x] Re-run public visual verification after the expanded project and case-study records are live
+- [x] Add explicit editorial/generated labeling to the public Insights/blog UI
+- [x] Run fresh desktop and mobile screenshots after the final database content insertions and labeling update

@@ -145,3 +145,31 @@ describe("lead capture contract", () => {
     deleteSiteDetail.mockRestore();
   });
 });
+
+
+describe("content ordering access", () => {
+  it("persists ordered case studies and projects for an admin", async () => {
+    const reorderCaseStudies = vi.spyOn(db, "reorderCaseStudies").mockResolvedValue({ success: true });
+    const reorderProjects = vi.spyOn(db, "reorderProjects").mockResolvedValue({ success: true });
+    const caller = appRouter.createCaller(adminContext);
+    const caseOrder = [{ id: 4, displayOrder: 0 }, { id: 3, displayOrder: 1 }];
+    const projectOrder = [{ id: 5, displayOrder: 0 }, { id: 6, displayOrder: 1 }];
+    await caller.admin.caseStudies.reorder(caseOrder);
+    await caller.admin.projects.reorder(projectOrder);
+    expect(reorderCaseStudies).toHaveBeenCalledWith(caseOrder);
+    expect(reorderProjects).toHaveBeenCalledWith(projectOrder);
+    reorderCaseStudies.mockRestore();
+    reorderProjects.mockRestore();
+  });
+
+  it("blocks anonymous and non-admin reorder attempts", async () => {
+    const caseOrder = [{ id: 4, displayOrder: 0 }];
+    const projectOrder = [{ id: 5, displayOrder: 0 }];
+    const anonymousCaller = appRouter.createCaller(context);
+    await expect(anonymousCaller.admin.caseStudies.reorder(caseOrder)).rejects.toMatchObject({ code: "FORBIDDEN" });
+    await expect(anonymousCaller.admin.projects.reorder(projectOrder)).rejects.toMatchObject({ code: "FORBIDDEN" });
+    const nonAdminCaller = appRouter.createCaller({ ...context, user: { id: 2, openId: "member-order", name: "Member", email: "member@example.com", loginMethod: "manus", role: "user" as const, createdAt: new Date(), updatedAt: new Date(), lastSignedIn: new Date() } });
+    await expect(nonAdminCaller.admin.caseStudies.reorder(caseOrder)).rejects.toMatchObject({ code: "FORBIDDEN" });
+    await expect(nonAdminCaller.admin.projects.reorder(projectOrder)).rejects.toMatchObject({ code: "FORBIDDEN" });
+  });
+});

@@ -65,6 +65,7 @@ export const caseStudies = mysqlTable("caseStudies", {
   solution: text("solution").notNull(),
   outcome: text("outcome").notNull(),
   isPublished: int("isPublished").default(1).notNull(),
+  displayOrder: int("displayOrder").default(0).notNull(),
   createdAt: timestamp("createdAt").defaultNow().notNull(),
   updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
 });
@@ -78,6 +79,7 @@ export const projects = mysqlTable("projects", {
   impact: varchar("impact", { length: 160 }).notNull(),
   status: varchar("status", { length: 80 }).default("Active").notNull(),
   isPublished: int("isPublished").default(1).notNull(),
+  displayOrder: int("displayOrder").default(0).notNull(),
   createdAt: timestamp("createdAt").defaultNow().notNull(),
   updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
 });
