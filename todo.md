@@ -42,7 +42,15 @@
 - [x] Save a new checkpoint for the consultation scheduling update
 - [x] Add a visible inline error state for failed consultation scheduling attempts
 - [x] Run fresh mobile and desktop verification of the scheduler and exit-intent popup behavior
-- [ ] Save a new checkpoint after the consultation scheduling update passes verification
+- [x] Save a new checkpoint after the consultation scheduling update passes verification
 - [x] Explicitly trigger and verify the exit-intent popup after the activation change (confirmed in preview)
 - [x] Verify the consultation scheduler interaction on a mobile viewport (responsive width and form constraints verified)
-- [ ] Save the final checkpoint after both interaction checks
+- [x] Save the final checkpoint after both interaction checks
+- [x] Update X, LinkedIn, Instagram, and WhatsApp URLs and remove Facebook from all public surfaces
+- [x] Add protected consultation list and status-management procedures for admin users
+- [x] Extend the admin dashboard with consultation-request navigation, filters, details, and status controls
+- [x] Add consultation admin access and status-update test coverage
+- [x] Run type checks, tests, build, and responsive dashboard verification (including responsive dashboard shell and locked anonymous state; populated records require owner sign-in)
+- [ ] Save a new checkpoint for the social-link and admin-dashboard update
+- [x] Add anonymous and non-admin forbidden tests for consultation listing and status updates
+- [x] Documented authenticated admin-dashboard visual verification limitation: the preview has no owner session, so the live check confirms the locked anonymous state and the responsive dashboard shell; owner sign-in is required to inspect populated records.

@@ -75,3 +75,16 @@ export async function createConsultationRequest(input: Omit<InsertConsultationRe
   await db.insert(consultationRequests).values(input);
   return { success: true } as const;
 }
+
+export async function listConsultationRequests() {
+  const db = await getDb();
+  if (!db) return [];
+  return db.select().from(consultationRequests).orderBy(desc(consultationRequests.createdAt));
+}
+
+export async function updateConsultationStatus(id: number, status: "requested" | "confirmed" | "completed" | "cancelled") {
+  const db = await getDb();
+  if (!db) throw new Error("Database is not available");
+  await db.update(consultationRequests).set({ status }).where(eq(consultationRequests.id, id));
+  return { success: true } as const;
+}

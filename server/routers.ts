@@ -4,7 +4,7 @@ import { getSessionCookieOptions } from "./_core/cookies";
 import { systemRouter } from "./_core/systemRouter";
 import { adminProcedure, publicProcedure, router } from "./_core/trpc";
 import { invokeLLM } from "./_core/llm";
-import { createConsultationRequest, createInquiry, createLead, listLeads, subscribeNewsletter, updateLeadStatus } from "./db";
+import { createConsultationRequest, createInquiry, createLead, listConsultationRequests, listLeads, subscribeNewsletter, updateConsultationStatus, updateLeadStatus } from "./db";
 
 const leadFields = z.object({
   name: z.string().trim().min(2).max(120),
@@ -38,6 +38,8 @@ export const appRouter = router({
   }),
   consultations: router({
     create: publicProcedure.input(z.object({ name: z.string().trim().min(2).max(120), email: z.string().email().max(320), company: z.string().trim().max(160).optional(), scheduledAt: z.coerce.date().refine(date => date.getTime() > Date.now(), "Choose a future time"), timezone: z.string().trim().min(1).max(80) })).mutation(({ input }) => createConsultationRequest({ ...input, status: "requested" })),
+    list: adminProcedure.query(() => listConsultationRequests()),
+    updateStatus: adminProcedure.input(z.object({ id: z.number().int().positive(), status: z.enum(["requested", "confirmed", "completed", "cancelled"]) })).mutation(({ input }) => updateConsultationStatus(input.id, input.status)),
   }),
   chatbot: router({
     ask: publicProcedure.input(z.object({ message: z.string().trim().min(1).max(800), history: z.array(z.object({ role: z.enum(["user", "assistant"]), content: z.string().max(1200) })).max(8).default([]) })).mutation(async ({ input }) => {

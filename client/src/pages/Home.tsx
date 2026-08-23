@@ -2,10 +2,10 @@ import { useEffect, useState } from "react";
 import { Link, useLocation } from "wouter";
 import { trpc } from "@/lib/trpc";
 import { toast } from "sonner";
-import { ArrowRight, BarChart3, Bot, Check, ChevronRight, CloudCog, Database, Facebook, Instagram, Linkedin, Menu, MessageCircle, MoveUpRight, Network, Phone, Send, Settings2, Sparkles, X, Zap } from "lucide-react";
+import { ArrowRight, BarChart3, Bot, Check, ChevronRight, CloudCog, Database, Instagram, Linkedin, Menu, MessageCircle, MoveUpRight, Network, Phone, Send, Settings2, Sparkles, X, Zap } from "lucide-react";
 
 const socials = [
-  ["LinkedIn", "https://www.linkedin.com/company/vernika", Linkedin], ["Instagram", "https://www.instagram.com/vernika", Instagram], ["Facebook", "https://www.facebook.com/vernika", Facebook], ["Twitter/X", "https://x.com/vernika", X], ["WhatsApp", "https://wa.me/919999999999", MessageCircle],
+  ["LinkedIn", "https://www.linkedin.com/in/shashankrajputx/", Linkedin], ["Instagram", "https://www.instagram.com/shashankrajput.__/", Instagram], ["Twitter/X", "https://x.com/vernikastore", X], ["WhatsApp", "https://wa.me/916391059119", MessageCircle],
 ] as const;
 const services = [
   { title: "Automation", desc: "Replace repetitive work with intelligent systems that move your business forward.", icon: Zap, tint: "#ef7656" },

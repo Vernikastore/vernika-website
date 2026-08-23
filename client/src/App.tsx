@@ -22,7 +22,9 @@ function App() {
             <Route path="/insights" component={Home} />
             <Route path="/insights/:slug" component={Home} />
             <Route path="/contact" component={Home} />
+            <Route path="/admin" component={AdminLeads} />
             <Route path="/admin/leads" component={AdminLeads} />
+            <Route path="/admin/consultations" component={AdminLeads} />
             <Route path="/404" component={NotFound} />
             <Route component={NotFound} />
           </Switch>
