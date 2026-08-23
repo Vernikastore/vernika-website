@@ -51,6 +51,25 @@
 - [x] Extend the admin dashboard with consultation-request navigation, filters, details, and status controls
 - [x] Add consultation admin access and status-update test coverage
 - [x] Run type checks, tests, build, and responsive dashboard verification (including responsive dashboard shell and locked anonymous state; populated records require owner sign-in)
-- [ ] Save a new checkpoint for the social-link and admin-dashboard update
+- [x] Save a new checkpoint for the social-link and admin-dashboard update
 - [x] Add anonymous and non-admin forbidden tests for consultation listing and status updates
 - [x] Documented authenticated admin-dashboard visual verification limitation: the preview has no owner session, so the live check confirms the locked anonymous state and the responsive dashboard shell; owner sign-in is required to inspect populated records.
+- [x] Add protected CSV export for all captured leads and consultation requests
+- [x] Add shared search and date-range filters for leads and consultation requests
+- [x] Add case-study schema, procedures, admin CRUD UI, and public-page data loading
+- [x] Add project schema, procedures, admin CRUD UI, and public-page presentation
+- [x] Add editable site-detail schema, procedures, admin CRUD UI, and public content wiring
+- [x] Add validation and access-control tests for all admin content mutations and export (including case-study, project, and site-detail CRUD paths)
+- [x] Run type checks, tests, build, and responsive admin/public verification
+- [ ] Save a new checkpoint for the admin content console update
+- [x] Repair JSX syntax regressions in public Home.tsx detail wiring and re-run the build
+- [x] Repair admin-console JSX syntax regressions from the content-management rewrite and re-run checks
+- [x] Fix content-editor cancel actions to close modal cleanly
+- [x] Add direct admin aliases for case studies, projects, and site details
+- [x] Align the site-detail update test with the router’s default publication value
+- [x] Add Vitest coverage for owner-only case-study create, update, and delete procedures
+- [x] Add Vitest coverage for owner-only project update and delete procedures
+- [x] Add Vitest coverage for owner-only site-detail delete and remaining content CRUD access paths
+- [x] Add denial coverage for anonymous and non-admin case-study create, update, and delete procedures
+- [x] Add denial coverage for non-admin project update and delete procedures
+- [x] Add denial coverage for anonymous and non-admin site-detail create, update, and delete procedures plus remaining content mutations

@@ -1,6 +1,6 @@
 import { desc, eq } from "drizzle-orm";
 import { drizzle } from "drizzle-orm/mysql2";
-import { InsertUser, inquiries, InsertLead, leads, newsletterSubscribers, users, InsertConsultationRequest, consultationRequests } from "../drizzle/schema";
+import { InsertUser, inquiries, InsertLead, leads, newsletterSubscribers, users, InsertConsultationRequest, consultationRequests, caseStudies, InsertCaseStudy, projects, InsertProject, siteDetails, InsertSiteDetail } from "../drizzle/schema";
 import { ENV } from "./_core/env";
 
 let _db: ReturnType<typeof drizzle> | null = null;
@@ -87,4 +87,97 @@ export async function updateConsultationStatus(id: number, status: "requested" |
   if (!db) throw new Error("Database is not available");
   await db.update(consultationRequests).set({ status }).where(eq(consultationRequests.id, id));
   return { success: true } as const;
+}
+
+export async function listCaseStudies(publishedOnly = false) {
+  const db = await getDb();
+  if (!db) return [];
+  return publishedOnly ? db.select().from(caseStudies).where(eq(caseStudies.isPublished, 1)).orderBy(desc(caseStudies.createdAt)) : db.select().from(caseStudies).orderBy(desc(caseStudies.createdAt));
+}
+
+export async function createCaseStudy(input: Omit<InsertCaseStudy, "id" | "createdAt" | "updatedAt">) {
+  const db = await getDb();
+  if (!db) throw new Error("Database is not available");
+  await db.insert(caseStudies).values(input);
+  return { success: true } as const;
+}
+
+export async function updateCaseStudy(id: number, input: Partial<Omit<InsertCaseStudy, "id" | "createdAt" | "updatedAt">>) {
+  const db = await getDb();
+  if (!db) throw new Error("Database is not available");
+  await db.update(caseStudies).set(input).where(eq(caseStudies.id, id));
+  return { success: true } as const;
+}
+
+export async function deleteCaseStudy(id: number) {
+  const db = await getDb();
+  if (!db) throw new Error("Database is not available");
+  await db.delete(caseStudies).where(eq(caseStudies.id, id));
+  return { success: true } as const;
+}
+
+export async function listProjects(publishedOnly = false) {
+  const db = await getDb();
+  if (!db) return [];
+  return publishedOnly ? db.select().from(projects).where(eq(projects.isPublished, 1)).orderBy(desc(projects.createdAt)) : db.select().from(projects).orderBy(desc(projects.createdAt));
+}
+
+export async function createProject(input: Omit<InsertProject, "id" | "createdAt" | "updatedAt">) {
+  const db = await getDb();
+  if (!db) throw new Error("Database is not available");
+  await db.insert(projects).values(input);
+  return { success: true } as const;
+}
+
+export async function updateProject(id: number, input: Partial<Omit<InsertProject, "id" | "createdAt" | "updatedAt">>) {
+  const db = await getDb();
+  if (!db) throw new Error("Database is not available");
+  await db.update(projects).set(input).where(eq(projects.id, id));
+  return { success: true } as const;
+}
+
+export async function deleteProject(id: number) {
+  const db = await getDb();
+  if (!db) throw new Error("Database is not available");
+  await db.delete(projects).where(eq(projects.id, id));
+  return { success: true } as const;
+}
+
+export async function listSiteDetails(publishedOnly = false) {
+  const db = await getDb();
+  if (!db) return [];
+  return publishedOnly ? db.select().from(siteDetails).where(eq(siteDetails.isPublished, 1)).orderBy(desc(siteDetails.createdAt)) : db.select().from(siteDetails).orderBy(desc(siteDetails.createdAt));
+}
+
+export async function createSiteDetail(input: Omit<InsertSiteDetail, "id" | "createdAt" | "updatedAt">) {
+  const db = await getDb();
+  if (!db) throw new Error("Database is not available");
+  await db.insert(siteDetails).values(input);
+  return { success: true } as const;
+}
+
+export async function updateSiteDetail(id: number, input: Partial<Omit<InsertSiteDetail, "id" | "createdAt" | "updatedAt">>) {
+  const db = await getDb();
+  if (!db) throw new Error("Database is not available");
+  await db.update(siteDetails).set(input).where(eq(siteDetails.id, id));
+  return { success: true } as const;
+}
+
+export async function deleteSiteDetail(id: number) {
+  const db = await getDb();
+  if (!db) throw new Error("Database is not available");
+  await db.delete(siteDetails).where(eq(siteDetails.id, id));
+  return { success: true } as const;
+}
+
+const csvCell = (value: unknown) => `"${(value === null || value === undefined ? "" : value instanceof Date ? value.toISOString() : String(value)).replace(/"/g, '""')}"`;
+
+export async function exportLeadAndConsultationCsv() {
+  const [leadRows, consultationRows] = await Promise.all([listLeads(), listConsultationRequests()]);
+  const header = ["recordType", "id", "name", "email", "phone", "company", "companySize", "interestArea", "leadStatus", "scheduledAt", "timezone", "consultationStatus", "createdAt"];
+  const rows = [
+    ...leadRows.map(lead => ["lead", lead.id, lead.name, lead.email, lead.phone, lead.company, lead.companySize, lead.interestArea, lead.status, "", "", "", lead.createdAt]),
+    ...consultationRows.map(item => ["consultation", item.id, item.name, item.email, "", item.company ?? "", "", "", "", item.scheduledAt, item.timezone, item.status, item.createdAt]),
+  ];
+  return [header, ...rows].map(row => row.map(csvCell).join(",")).join("\n");
 }
